@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\AuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(PostController::class)->group(function () {
-    Route::get('/posts', 'index');
+    Route::get('/posts', 'index')->middleware(['auth:sanctum']);
+    Route::get('/posts/{id}', 'show')->middleware(['auth:sanctum']);
+});
+
+Route::controller(AuthenticationController::class)->group(function () {
+    Route::post('/login', 'login');
 });
